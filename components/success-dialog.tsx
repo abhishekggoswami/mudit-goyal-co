@@ -1,0 +1,6 @@
+import { CheckCircle2 } from "lucide-react";
+import type { AcceptanceResponse } from "@/types/acceptance";
+
+export function SuccessDialog({ data, firstName }: { data: AcceptanceResponse; firstName: string }) {
+  return <section className="mx-auto my-12 max-w-xl rounded-xl border border-emerald-200 bg-white p-8 text-center shadow-soft" role="status" aria-live="polite"><CheckCircle2 className="mx-auto h-12 w-12 text-emerald-600" aria-hidden /><h2 className="mt-4 text-2xl font-semibold text-ink">Acceptance Recorded</h2><p className="mt-3 leading-7 text-slate-600">Thank you, {firstName}. Your acceptance has been recorded successfully and the agreement report has been sent to the Research Analyst.</p><dl className="mt-6 rounded-lg bg-slate-50 p-4 text-left text-sm"><div className="flex justify-between gap-4 py-2"><dt className="text-slate-500">Acceptance ID</dt><dd className="font-semibold text-ink">{data.acceptanceId}</dd></div><div className="border-t border-slate-200 py-2"><dt className="text-slate-500">Accepted On</dt><dd className="mt-1 font-semibold text-ink">{data.acceptedAtFormatted}</dd></div></dl><p className="mt-6 text-sm text-slate-500">You may now close this page.</p></section>;
+}
