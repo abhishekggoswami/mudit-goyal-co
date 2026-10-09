@@ -1,7 +1,8 @@
 export type AgreementBlock =
   | { type: "heading"; text: string; level?: 2 | 3 }
   | { type: "paragraph"; text: string }
-  | { type: "listItem"; marker: string; indent?: number; text: string };
+  | { type: "listItem"; marker: string; indent?: number; text: string }
+  | { type: "signature"; label: string; sourceText: string; src: string; alt: string };
 
 /**
  * Authoritative agreement source: Mudit_Goyal_Terms_and_Conditions_Agreement.docx.
@@ -753,8 +754,11 @@ export const agreementBlocks: AgreementBlock[] = [
     "text": "IN WITNESS whereof this Agreement has been entered into by the Parties on the date appearing above as the date of this Agreement."
   },
   {
-    "type": "paragraph",
-    "text": "Signature:\t_________________________"
+    "type": "signature",
+    "label": "Signature:",
+    "sourceText": "Signature:\t_________________________",
+    "src": "/signatures/mudit-goyal-signature.png",
+    "alt": "Handwritten signature of Mudit Goyal"
   },
   {
     "type": "paragraph",
@@ -777,5 +781,5 @@ export const agreementBlocks: AgreementBlock[] = [
 export const agreementIsPlaceholder = false;
 
 export const agreementPlainText = agreementBlocks.map((block) =>
-  block.type === "listItem" ? `${block.marker} ${block.text}` : block.text
+  block.type === "listItem" ? `${block.marker} ${block.text}` : block.type === "signature" ? block.sourceText : block.text
 ).join("\n\n");

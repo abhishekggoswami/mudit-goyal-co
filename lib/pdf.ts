@@ -88,6 +88,18 @@ function drawHeading(state: PdfState, text: string, level: 2 | 3 = 2) {
   state.y -= 5;
 }
 
+async function drawResearchAnalystSignature(state: PdfState, label: string, source: string) {
+  const imageBytes = await readFile(path.join(process.cwd(), "public", source.replace(/^\//, "")));
+  const signature = await state.pdf.embedPng(imageBytes);
+  const signatureWidth = 176;
+  const signatureHeight = signatureWidth * (signature.height / signature.width);
+  const requiredHeight = Math.max(signatureHeight + 12, 43);
+  ensureSpace(state, requiredHeight);
+  state.page.drawText(label, { x: MARGIN, y: state.y - 18, size: 9.6, font: state.regular });
+  state.page.drawImage(signature, { x: MARGIN + 54, y: state.y - signatureHeight - 3, width: signatureWidth, height: signatureHeight });
+  state.y -= requiredHeight + 8;
+}
+
 function drawFooter(page: any, index: number, total: number, font: any, record: AcceptanceRecord) {
   const y = 46;
   page.drawLine({ start: { x: MARGIN, y: y + 25 }, end: { x: PAGE_WIDTH - MARGIN, y: y + 25 }, thickness: 0.6 });
@@ -117,7 +129,8 @@ export async function createAcceptancePdf(record: AcceptanceRecord): Promise<Uin
   state.y -= 12;
   for (const block of agreementBlocks) {
     if (block.type === "heading") drawHeading(state, block.text, block.level);
-    else if (block.type === "paragraph") drawParagraph(state, block.text);
+    else if (block.type === "paragraph") drawParagraph(state, block.text.startsWith("By: ") ? `By: ${record.fullName}` : block.text);
+    else if (block.type === "signature") await drawResearchAnalystSignature(state, block.label, block.src);
     else drawListItem(state, block.marker, block.text, block.indent);
   }
   drawHeading(state, "Electronic Acceptance Record");

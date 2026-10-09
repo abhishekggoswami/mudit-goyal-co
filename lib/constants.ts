@@ -27,6 +27,7 @@ export const RA_CONFIG = {
   coveredCompanyRole: "No",
   associatesOrRelativesInRaServices: "None",
   signatureName: "Mudit Goyal",
+  signaturePath: "/signatures/mudit-goyal-signature.png",
   officialDesignation: "Research Analyst",
   agreementVersion: "1.0",
   primaryAccent: "#0f766e",

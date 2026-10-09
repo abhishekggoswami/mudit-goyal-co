@@ -1,6 +1,7 @@
 "use client";
 
 import { ChangeEvent, useRef, useState } from "react";
+import Image from "next/image";
 import { AlertTriangle, ChevronDown, FileText } from "lucide-react";
 import type { AgreementBlock } from "@/content/terms-and-conditions";
 
@@ -21,6 +22,7 @@ export function AgreementReader({ onContinue, blocks, agreementIsPlaceholder }: 
       {blocks.map((block, index) => {
         if (block.type === "heading") return block.level === 3 ? <h3 key={index}>{block.text}</h3> : <h2 key={index}>{block.text}</h2>;
         if (block.type === "listItem") return <div key={index} role="listitem" className="my-2 flex gap-2" style={{ marginLeft: `${(block.indent || 0) * 18}px` }}><span className="shrink-0 font-semibold text-slate-800">{block.marker}</span><span>{block.text}</span></div>;
+        if (block.type === "signature") return <div key={index} className="my-5 flex items-end gap-3 text-slate-700"><span>{block.label}</span><Image src={block.src} alt={block.alt} width={240} height={81} priority className="h-auto w-52 object-contain object-left" /></div>;
         return <p key={index}>{block.text}</p>;
       })}
       <div className="mt-8 flex justify-center text-slate-400" aria-hidden><ChevronDown className="h-5 w-5" /></div>
