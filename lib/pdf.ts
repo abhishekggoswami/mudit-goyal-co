@@ -12,6 +12,7 @@ const MARGIN = 52;
 const FOOTER_HEIGHT = 66;
 const CONTENT_BOTTOM = MARGIN + FOOTER_HEIGHT;
 const LINE_GAP = 5;
+const FOOTER_FONT_SIZE = 8.5;
 
 type PdfState = { pdf: any; pages: any[]; page: any; y: number; regular: any; bold: any; record: AcceptanceRecord };
 
@@ -105,9 +106,9 @@ function drawFooter(page: any, index: number, total: number, font: any, record: 
   page.drawLine({ start: { x: MARGIN, y: y + 25 }, end: { x: PAGE_WIDTH - MARGIN, y: y + 25 }, thickness: 0.6 });
   const text = `Accepted By: ${cleanPdfText(record.fullName)}  |  Mobile: ${record.mobile}\nAccepted On: ${record.acceptedAtFormatted}  |  Acceptance ID: ${record.acceptanceId}`;
   const lines = text.split("\n");
-  lines.forEach((line, lineIndex) => page.drawText(line, { x: MARGIN, y: y + 13 - (lineIndex * 10), size: 7.3, font }));
+  lines.forEach((line, lineIndex) => page.drawText(line, { x: MARGIN, y: y + 13 - (lineIndex * 10), size: FOOTER_FONT_SIZE, font }));
   const pageText = `Page ${index + 1} of ${total}`;
-  page.drawText(pageText, { x: PAGE_WIDTH - MARGIN - font.widthOfTextAtSize(pageText, 7.3), y: y - 7, size: 7.3, font });
+  page.drawText(pageText, { x: PAGE_WIDTH - MARGIN - font.widthOfTextAtSize(pageText, FOOTER_FONT_SIZE), y: y - 7, size: FOOTER_FONT_SIZE, font });
 }
 
 export async function createAcceptancePdf(record: AcceptanceRecord): Promise<Uint8Array> {
